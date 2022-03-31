@@ -1,9 +1,16 @@
 import { api } from '../api';
 import { useNavigate } from 'react-router-dom';
 import './LoginForm.css';
+import { useEffect } from 'react';
 
 export default function LoginForm() {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    api.account.get().then(() => {
+      navigate('/chat?room=general');
+    }, () => {});
+  }, []);  
 
   async function login(e: any) {
     e.preventDefault();

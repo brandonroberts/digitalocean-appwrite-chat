@@ -1,4 +1,4 @@
-import { Models } from 'appwrite';
+import { Models, Query } from 'appwrite';
 import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { api } from '../api';
@@ -16,9 +16,20 @@ export default function Chat() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    api.database.listDocuments('chat').then((data) => {
+    api.account.get().then((session) => {
+      setUser(session);
+    }, () => {
+      navigate('/');
+    });
+  }, []);
+
+  useEffect(() => {
+    api.database.listDocuments('chat', [
+      Query.equal('room', params.get('room') || 'general'),
+    ]).then((data) => {
       setMessages(data.documents as ChatMessage[]);
     });
+
   }, []);
 
   useEffect(() => {
@@ -57,7 +68,7 @@ export default function Chat() {
   }
 
   return (
-    <div className="chat-container">
+    !user ? <div>Loading...</div>: <div className="chat-container">
       <div className="chat-header">
         <div className="title">Let's Chat</div>
         <div className="leave" onClick={logout}>
@@ -67,11 +78,11 @@ export default function Chat() {
 
       <div className="chat-body">
         {messages.map((message) => {
-          const messageClass = "message " + (user && message.name !== user?.name ? 'incoming': '');
-          console.log(message.name, user?.name);
+          const messageClass = "message " + (user && user.name.toLowerCase() !== message.name.toLowerCase() ? 'incoming': '');
+          
           return (
             <div className={messageClass} key={message.$id}>
-              {message.name}:<br />
+              <span className="name">{message.name}:</span>
               {message.message}
             </div>
           );
