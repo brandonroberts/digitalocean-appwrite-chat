@@ -14,7 +14,7 @@
   background: #ffffff;
   box-shadow: 0px 4px 40px rgba(55, 59, 77, 0.08);
   width: 100%;
-  height: 40px;
+  height: 60px;
 }
 
 .chat-header .title {
@@ -54,6 +54,7 @@
 
 .chat-body {
   display: flex;
+  flex-direction: column;
   flex-grow: 1;
   padding: 16px;
 }
@@ -64,10 +65,16 @@
   justify-content: space-around;
 }
 
+.chat-message form{ 
+  display: flex;
+  flex-direction: row;
+  width: 95%;
+}
+
 .chat-message input {
   display: flex;
   flex-direction: row;
-  width: 85%;
+  width: 100%;
   height: 48px;
   margin-bottom: 4px;
 
@@ -77,3 +84,30 @@
   border-radius: 4px;
 }
 
+.send-message {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 12px 10px 12px 14px;
+
+  width: 24px;
+  height: 24px;
+
+  background: #DA1A5B;
+  border-radius: 4px;
+}
+
+.arrow {
+  position: static;
+  width: 24px;
+  height: 24px;
+  left: 38px;
+  top: 12px;
+  
+  transform: rotate(90deg);
+}
+
+.arrow path {
+  fill: #fff;
+}

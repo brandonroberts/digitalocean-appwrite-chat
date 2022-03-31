@@ -29,7 +29,7 @@ export default function LoginForm() {
 
         <p className="login-room">
           <label htmlFor="room">Room</label>
-          <input type="text" id="room" name="room" placeholder="General"/>
+          <input type="text" id="room" name="room" placeholder="Room Name"/>
         </p>
 
         <button type="submit">Start Chatting</button>
