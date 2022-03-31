@@ -8,6 +8,7 @@
 
 .chat-header {
   display: flex;
+  flex: none;
   flex-direction: row;
   justify-content: space-between;
 
@@ -57,15 +58,33 @@
   flex-direction: column;
   flex-grow: 1;
   padding: 16px;
+  overflow: auto;
+}
+
+.message {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 8px 8px 8px 12px;
+  margin: 16px 8px 16px 12px;
+  
+  background: #FFFFFF;  
+  box-shadow: 0px 1px 4px rgba(55, 59, 77, 0.1), 0px 1px 4px -1px rgba(55, 59, 77, 0.1);
+  border-radius: 0px 8px 8px 8px;
+}
+
+.message .incomming {
+  align-items: flex-end;
 }
 
 .chat-message {
   display: flex;
+  flex: none;
   flex-direction: row;
   justify-content: space-around;
 }
 
-.chat-message form{ 
+.chat-message form { 
   display: flex;
   flex-direction: row;
   width: 95%;
