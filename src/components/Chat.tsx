@@ -1,74 +1,24 @@
-import { Models, Query } from 'appwrite';
 import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { api } from '../api';
 import './Chat.css';
 
-export type ChatMessage = Models.Document & {
+export type ChatMessage = {
   name: string;
   message: string;
 };
 
 export default function Chat() {
-  const [user, setUser] = useState<Models.User<Models.Preferences>>();
-  const [params] = useSearchParams();
   const [messages, setMessages] = useState<ChatMessage[]>([]);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    api.account.get().then((session) => {
-      setUser(session);
-    }, () => {
-      navigate('/');
-    });
-  }, []);
-
-  useEffect(() => {
-    api.database.listDocuments('chat', [
-      Query.equal('room', params.get('room') || 'general'),
-    ]).then((data) => {
-      setMessages(data.documents as ChatMessage[]);
-    });
-
-  }, []);
-
-  useEffect(() => {
-    const unsubscribe = api.subscribe(
-      ['collections.chat.documents'],
-      (data) => {
-        if (data.event === 'database.documents.create') {
-          setMessages((messages) => [...messages, data.payload as ChatMessage]);
-        }
-      }
-    );
-
-    return () => {
-      unsubscribe();
-    };
-  }, []);
 
   async function sendMessage(e: any) {
     e.preventDefault();
-
-    const form = new FormData(e.target);
-    const message = form.get('message') as string;
-    const session = await api.account.get();
-
-    await api.database.createDocument('chat', 'unique()', {
-      name: session.name,
-      room: params.get('room'),
-      message,
-    });
-    e.target.message.value = '';
   }
 
   function logout() {
-    api.account.deleteSession('current');
-    navigate('/');
   }
 
   return (
-    !user ? <div>Loading...</div>: <div className="chat-container">
+    <div className="chat-container">
       <div className="chat-header">
         <div className="title">Let's Chat</div>
         <div className="leave" onClick={logout}>
@@ -78,10 +28,8 @@ export default function Chat() {
 
       <div className="chat-body">
         {messages.map((message) => {
-          const messageClass = "message " + (user && user.name.toLowerCase() !== message.name.toLowerCase() ? 'incoming': '');
-          
           return (
-            <div className={messageClass} key={message.$id}>
+            <div>
               <span className="name">{message.name}:</span>
               {message.message}
             </div>
