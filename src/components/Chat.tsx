@@ -92,7 +92,7 @@ export default function Chat() {
       <div className="chat-message">
         <form onSubmit={sendMessage}>
           <input type="text" name="message" placeholder="Type a message..." />
-          <div className="send-message">
+          <button type="submit" className="send-message">
             <svg
               className="arrow"
               width="24"
@@ -106,7 +106,7 @@ export default function Chat() {
                 fill="#373B4D"
               />
             </svg>
-          </div>
+          </button>
         </form>
       </div>
     </div>
