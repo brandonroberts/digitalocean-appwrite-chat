@@ -62,8 +62,8 @@ export default function Chat() {
     e.target.message.value = '';
   }
 
-  function logout() {
-    api.account.deleteSession('current');
+  async function logout() {
+    await api.account.deleteSession('current');
     navigate('/');
   }
 
